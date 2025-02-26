@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор паролів</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f3f3f3;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            padding-left: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .container h1 {
+            font-size: 24px;
+            
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+            
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        form {
+            padding-left: 30%;
+        }
+        #output {
+            background-color:#ebf0ec ;
+            margin-left: -10%;
+            width: 460px;
+            height: 50px;
+        }
+        #output:hover{
+            background-color: #dae0db;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Генератор паролів</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="length">Довжина пароля:</label>
+                <input type="number" id="length" name="length" min="4" max="50" value="12"  required>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" name="include-lowercase"> літери</label>
+                <label><input type="checkbox" name="include-uppercase"> великі літери</label>
+                <label><input type="checkbox" name="include-numbers" checked> цифри</label>
+                <label><input type="checkbox" name="include-symbols" checked>символи</label>
+            </div>
+            <button type="submit" style="margin-left: -50%;">Сгенерувати пароль</button>
+        </form>
+        
+        <label id="output" >{{password}}</label>
+        <button id="copyButton" style="margin-left: -5%; width: 80px;" >copy</button>
+            
+        </div>
+    </div>
+<script>
+    document.getElementById('copyButton').addEventListener('click', function() {
+    // Получаем текст из элемента label
+    const textToCopy = document.getElementById('output').innerText;
+
+    // Создаем временный элемент для копирования
+    const tempInput = document.createElement('textarea');
+    tempInput.value = textToCopy;
+    document.body.appendChild(tempInput);
+
+    // Копируем текст в буфер обмена
+    tempInput.select();
+    document.execCommand('copy');
+
+    // Удаляем временный элемент
+    document.body.removeChild(tempInput);
+
+    if(textToCopy){
+     alert('Текст скопійовано!');
+    }
+});
+
+
+</script>    
+</body>
+</html>
